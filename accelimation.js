@@ -98,9 +98,29 @@ Accelimation._add = function(o) {
     this.instances[index] = o;
     // if this is the first one, start the engine
     if (this.instances.length == 1) {
-        this.timerID =
-            window.setInterval("Accelimation._paintAll()", this.targetRes);
+        if (!this._scheduleOneShot())
+          this._scheduleRepeating();
     }
+}
+
+Accelimation._scheduleOneShot = function() {
+  if (window.webkitRequestAnimationFrame) {
+    this.timerId = webkitRequestAnimationFrame(
+      function(timestamp) {
+        Accelimation._paintAll(timestamp);
+      });
+      return true;
+  } else {
+    return false;
+  }
+}
+
+Accelimation._scheduleRepeating = function() {
+  this.timerID = window.setInterval(
+    function() {
+      Accelimation._paintAll(new Date().getTime());
+    },
+    this.targetRes);
 }
 
 // remove a function from the list
@@ -114,7 +134,11 @@ Accelimation._remove = function(o) {
     }
     // if that was the last one, stop the engine
     if (this.instances.length == 0) {
-        window.clearInterval(this.timerID);
+        if (window.webkitCancelRequestAnimationFrame)
+          webkitCancelRequestAnimationFrame(this.timerID);
+        else
+          window.clearInterval(this.timerID);
+
         this.timerID = null;
     }
 }
@@ -128,6 +152,9 @@ Accelimation._paintAll = function() {
         // t0 greater than "now", which means that elapsed would be negative.
         this.instances[i]._paint(Math.max(now, this.instances[i].t0));
     }
+
+    if (this.instances.length)
+      this._scheduleOneShot();
 }
 
 
