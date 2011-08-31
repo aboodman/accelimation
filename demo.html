@@ -1,0 +1,24 @@
+<html>
+<script src="accelimation.js"></script>
+<script>
+window.onclick = function() {
+  var w = document.body.clientWidth - 35;
+  var h = document.body.clientHeight - 35;
+  var x = Math.random() * w;
+  var y = Math.random() * h;
+  var t = Math.random() * 2000 + 500;
+  var accel = Math.random() * 2;
+
+  var foo = document.getElementById("foo");
+  var a = new Accelimation(foo.style, "left", x, t, accel, "px");
+  var b = new Accelimation(foo.style, "top", y, t, accel, "px");
+  a.start();
+  b.start();
+}
+</script>
+
+<div style="text-align:center; margin-top:10em; font-family:verdana; font-size:12px;">Click anywhere.</div>
+
+<div id="foo" style="position:absolute; left:200px; top:200px; width:35px; height:35px; background:#ccc; border:1px solid #666;"></div>
+
+</html>
