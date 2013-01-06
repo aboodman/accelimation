@@ -92,6 +92,20 @@ Accelimation.prototype._end = function() {
 // static methods (all private)
 //=====================================================================
 
+Accelimation._raf = function() {
+  (window.requestAnimationFrame ||
+   window.webkitRequestAnimationFrame ||
+   window.mozRequestAnimationFrame ||
+   window.msRequestAnimationFrame).apply(null, arguments);
+};
+
+Accelimation._caf = function() {
+  (window.cancelAnimationFrame ||
+   window.webkitCancelAnimationFrame ||
+   window.mozCancelAnimationFrame ||
+   window.msCancelAnimationFrame).apply(null, arguments);
+};
+
 // add a function to the list of ones to call periodically
 Accelimation._add = function(o) {
     var index = this.instances.length;
@@ -104,8 +118,8 @@ Accelimation._add = function(o) {
 }
 
 Accelimation._scheduleOneShot = function() {
-  if (window.webkitRequestAnimationFrame) {
-    this.timerId = webkitRequestAnimationFrame(
+  if (this._raf) {
+    this.timerId = this._raf(
       function(timestamp) {
         Accelimation._paintAll(timestamp);
       });
@@ -134,8 +148,8 @@ Accelimation._remove = function(o) {
     }
     // if that was the last one, stop the engine
     if (this.instances.length == 0) {
-        if (window.webkitCancelRequestAnimationFrame)
-          webkitCancelRequestAnimationFrame(this.timerID);
+        if (this._caf)
+          this._caf(this.timerID);
         else
           window.clearInterval(this.timerID);
 

@@ -1,4 +1,5 @@
 <html>
+<body style="font-family:georgia">
 <script src="accelimation.js"></script>
 <script>
 window.onclick = function() {
@@ -17,8 +18,23 @@ window.onclick = function() {
 }
 </script>
 
-<div style="text-align:center; margin-top:10em; font-family:verdana; font-size:12px;">Click anywhere.</div>
+<div style="font-family:georgia; width:60ex;">
+<p><b>Accelimation</b>
 
-<div id="foo" style="position:absolute; left:200px; top:200px; width:35px; height:35px; background:#ccc; border:1px solid #666;"></div>
+<p>Animates any numeric JavaScript property (with optional string suffix) with
+configurable acceleration.
+
+<p>The <a
+href="https://developer.mozilla.org/en-US/docs/DOM/window.requestAnimationFrame"
+>requestAnimationFrame</a> function is used when available for
+optimal performance. Otherwise, a single timer loop is shared between all
+concurrent animations.
+
+<p><a href="https://github.com/aboodman/accelimation">source code</a>
+</div>
+
+<div style="text-align:center; margin-top:6em;"><b>Click anywhere to test.</b></div>
+
+<div id="foo" style="position:absolute; left:200px; top:200px; width:35px; height:35px; background:#666; border:1px solid black; opacity:0.4;"></div>
 
 </html>
